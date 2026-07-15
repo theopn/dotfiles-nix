@@ -61,7 +61,17 @@
   };
   programs.dconf.enable = true;
   # register swaylock to /etc/pam.d/
-  security.pam.services.swaylock = {};
+  security.pam.services.swaylock = {
+    # https://www.reddit.com/r/NixOS/comments/16oiazf/swaylock_fprintd_fingerprint_reader_issues/
+    text = ''
+      # Try password first
+      auth sufficient pam_unix.so try_first_pass likeauth nullok nodelay
+      # Then fprintd
+      auth sufficient pam_fprintd.so
+      # Fallback
+      auth include login
+    '';
+  };
 
 
   # Me
