@@ -192,7 +192,7 @@ binds {
     Mod+Return          { spawn "kitty"; }
     Mod+Space           { spawn "rofi" "-show" "drun"; }
     Mod+Shift+P         { spawn "theo-rofi-powermenu"; }
-    Mod+Shift+V         { spawn "copyq" "show"; }
+    Mod+Shift+V         { spawn "rofi" "-modi" "clipboard:cliphist-rofi-img" "-show" "clipboard" "-show-icons"; }
     Print               { spawn "theo-rofi-screenshot"; }
     Ctrl+Print          { spawn "theo-rofi-screenrecord"; }
     Shift+Print hotkey-overlay-title="Open Niri native screenshot" { screenshot; }
