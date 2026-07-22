@@ -24,7 +24,7 @@ let
         rm -rf "$tmp_dir"
         mkdir -p "$tmp_dir"
 
-        idx=$(cliphist list | gawk "$prog" | rofi -dmenu -p "theo's cliphist manager>" -i -show-icons \
+        selection=$(cliphist list | gawk "$prog" | rofi -dmenu -p "theo's cliphist manager>" -i -show-icons \
           -mesg "<span size=\"small\">ESC to quit</span>" \
           -theme-str 'window {width: 800px;}' \
           -theme-str 'listview {columns: 1; lines: 20;}' \
@@ -32,16 +32,22 @@ let
         )
 
         # Exit if no selection
-        [[ -z "$idx" ]] && exit 0
+        [[ -z "$selection" ]] && exit 0
 
         # filter out images
-        if [[ "$idx" =~ binary.*(jpg|jpeg|png|bmp) ]]; then
-            preview="<i>(pretty picture that unfortunately cannot be displayed ]</i>"$'\n'"Info: $idx"
+        if [[ "$selection" =~ binary.*(jpg|jpeg|png|bmp) ]]; then
+            # this is really tedious, but here we go.
+            # As you can see, regex is bad, so it will catch things like "[[ binary data something png ]] + illegal text".
+            # E.g., imagine a really dumb dude copying this exact if block here.
+            # So we have to perform the same filteration as the else block.
+            # BUT DON'T USE `CLIPHIST DECODE` SINCE IT WILL SPIT OUT BINARY AND BAD THINGS WILL HAPPEN.
+            filtered_selection=$(echo "$selection" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+            preview="<i>pretty picture that unfortunately cannot be displayed here :(</i>"$'\n'"Image info: $filtered_selection"
         else
-            preview=$(cliphist decode <<< "$idx" | tr -d '\0' | head -n 5 | cut -c 1-200 | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+            preview=$(cliphist decode <<< "$selection" | tr -d '\0' | head -n 5 | cut -c 1-200 | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
         fi
 
-        # selection menu
+        # menu
         action=$(echo -e "back\ncopy\ndelete\nclear history" | rofi -dmenu -p ">" \
           -mesg "$preview" \
           -markup-rows \
@@ -57,11 +63,11 @@ let
         # 4. Handle the chosen action
         case "$action" in
           "copy")
-            cliphist decode <<< "$idx" | wl-copy
+            cliphist decode <<< "$selection" | wl-copy
             exit 0
             ;;
           "delete")
-            cliphist delete <<< "$idx"
+            cliphist delete <<< "$selection"
             ;;
           "clear history")
             confirm=$(echo -e "Cancel\nBE GONE CLIPBOARD HISTORY" | rofi -dmenu -p "Confirm Wipe?" \
