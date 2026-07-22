@@ -192,10 +192,13 @@ binds {
     Mod+Return          { spawn "kitty"; }
     Mod+Space           { spawn "rofi" "-show" "drun"; }
     Mod+Shift+P         { spawn "theo-rofi-powermenu"; }
-    Mod+Shift+V         { spawn "rofi" "-modi" "clipboard:cliphist-rofi-img" "-show" "clipboard" "-show-icons"; }
     Print               { spawn "theo-rofi-screenshot"; }
     Ctrl+Print          { spawn "theo-rofi-screenrecord"; }
     Shift+Print hotkey-overlay-title="Open Niri native screenshot" { screenshot; }
+    // Opens a custom cliphist manager in cliphist.nix
+    // One below calls the official cliphist-rofi-img, use that if mine broke for whatever reason
+    Mod+Shift+V         { spawn "theo-cliphist-manager"; }
+    //Mod+Shift+V         { spawn "rofi" "-modi" "clipboard:cliphist-rofi-img" "-show" "clipboard" "-show-icons"; }
 
     // Function keys
     XF86AudioRaiseVolume  allow-when-locked=true { spawn "theo-volume-ctrl" "up"; }
