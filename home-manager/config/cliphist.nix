@@ -43,14 +43,15 @@ let
             # So we have to perform the same filteration as the else block.
             # BUT DON'T USE `CLIPHIST DECODE` SINCE IT WILL SPIT OUT BINARY AND BAD THINGS WILL HAPPEN.
             filtered_selection=$(echo "$selection" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
-            preview="<i>pretty picture that unfortunately cannot be displayed here :(</i>"$'\n'"Image info: $filtered_selection"
+            preview="<i>&lt; insert pretty picture that cannot be displayed here :( &gt;</i>"$'\n\n'"$filtered_selection"
         else
-            preview=$(cliphist decode <<< "$selection" | tr -d '\0' | head -n 5 | cut -c 1-200 | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+            # || true because if `head` cuts the text, then cliphist decode throws SIGPIPE in future lines
+            preview=$(cliphist decode <<< "$selection" | tr -d '\0' | head -n 20 | cut -c 1-200 | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' || true)
         fi
 
         # menu
-        action=$(echo -e "back\ncopy\ndelete\nclear history" | rofi -dmenu -p ">" \
-          -mesg "$preview" \
+        action=$(echo -e "back\ncopy\ndelete\nnuclear weapon" | rofi -dmenu -p ">" \
+          -mesg "<b><u>content (first 20 lines)</u></b>"$'\n\n'"$preview" \
           -markup-rows \
           -theme-str 'mainbox {children: [ "message", "listview" ];}' \
           -theme-str 'listview {columns: 4; lines: 1;}' \
@@ -70,8 +71,8 @@ let
           "delete")
             cliphist delete <<< "$selection"
             ;;
-          "clear history")
-            confirm=$(echo -e "Cancel\nBE GONE CLIPBOARD HISTORY" | rofi -dmenu -p "Confirm Wipe?" \
+          "nuclear weapon")
+            confirm=$(echo -e "nvm\nBE GONE CLIPBOARD HISTORY" | rofi -dmenu -p "you sure?" \
               -theme-str 'window {width: 400px;}' \
               -theme-str 'listview {lines: 2; columns: 1;}'
             )
