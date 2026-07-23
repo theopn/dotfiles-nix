@@ -26,8 +26,9 @@ let
 
         selection=$(cliphist list | gawk "$prog" | rofi -dmenu -p "theo's cliphist manager>" -i -show-icons \
           -mesg "<span size=\"small\">ESC to quit</span>" \
+          -theme-str 'element-icon { size: 64px; }' \
           -theme-str 'window {width: 800px;}' \
-          -theme-str 'listview {columns: 1; lines: 20;}' \
+          -theme-str 'listview {columns: 1; lines: 10;}' \
           -theme-str 'textbox {horizontal-align: 0.5;}'
         )
 
