@@ -4,6 +4,7 @@
 {
   imports = [
     ./config/cliphist.nix
+    ./config/easyeffects.nix
     ./config/imv.nix
     ./config/keychain.nix
     ./config/mpv.nix
