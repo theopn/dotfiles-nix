@@ -1,0 +1,96 @@
+{ pkgs, ... }:
+# image preview portion from:
+# https://github.com/sentriz/cliphist/blob/master/contrib/cliphist-rofi-img
+# nixpkg ships chiphist-rofi-img with the main package, btw.
+let
+  theo-cliphist-manager = pkgs.writeShellApplication {
+    name = "theo-cliphist-manager";
+    runtimeInputs = with pkgs; [ cliphist wl-clipboard coreutils gawk gnused ];
+    text = ''
+      tmp_dir="/tmp/cliphist"
+
+      # basically a hack that converts images into icons to display in Rofi
+      read -r -d "" prog <<'EOF' || true
+      /^[0-9]+\s<meta http-equiv=/ { next }
+      match($0, /^([0-9]+)\s(\[\[\s)?binary.*(jpg|jpeg|png|bmp)/, grp) {
+          system("echo " grp[1] "\\\t | cliphist decode >/tmp/cliphist/"grp[1]"."grp[3])
+          print $0"\0icon\x1f/tmp/cliphist/"grp[1]"."grp[3]
+          next
+      }
+      1
+      EOF
+
+      while true; do
+        rm -rf "$tmp_dir"
+        mkdir -p "$tmp_dir"
+
+        selection=$(cliphist list | gawk "$prog" | rofi -dmenu -p "theo's cliphist manager>" -i -show-icons \
+          -mesg "<span size=\"small\">ESC to quit</span>" \
+          -theme-str 'element-icon { size: 64px; }' \
+          -theme-str 'window {width: 800px;}' \
+          -theme-str 'listview {columns: 1; lines: 10;}' \
+          -theme-str 'textbox {horizontal-align: 0.5;}'
+        )
+
+        # Exit if no selection
+        [[ -z "$selection" ]] && exit 0
+
+        # filter out images
+        if [[ "$selection" =~ binary.*(jpg|jpeg|png|bmp) ]]; then
+            # this is really tedious, but here we go.
+            # As you can see, regex is bad, so it will catch things like "[[ binary data something png ]] + illegal text".
+            # E.g., imagine a really dumb dude copying this exact if block here.
+            # So we have to perform the same filteration as the else block.
+            # BUT DON'T USE `CLIPHIST DECODE` SINCE IT WILL SPIT OUT BINARY AND BAD THINGS WILL HAPPEN.
+            filtered_selection=$(echo "$selection" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g')
+            preview="<i>&lt; insert pretty picture that cannot be displayed here :( &gt;</i>"$'\n\n'"$filtered_selection"
+        else
+            # || true because if `head` cuts the text, then cliphist decode throws SIGPIPE in future lines
+            preview=$(cliphist decode <<< "$selection" | tr -d '\0' | head -n 20 | cut -c 1-200 | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g' || true)
+        fi
+
+        # menu
+        action=$(echo -e "back\ncopy\ndelete\nnuclear weapon" | rofi -dmenu -p ">" \
+          -mesg "<b><u>content (first 20 lines)</u></b>"$'\n\n'"$preview" \
+          -markup-rows \
+          -theme-str 'mainbox {children: [ "message", "listview" ];}' \
+          -theme-str 'listview {columns: 4; lines: 1;}' \
+          -theme-str 'textbox {horizontal-align: 0.5;}' \
+          -theme-str 'element-text {horizontal-align: 0.5;}'
+        )
+
+        # Exit if ESC is pressed in the sub-menu
+        [[ -z "$action" ]] && exit 0
+
+        # 4. Handle the chosen action
+        case "$action" in
+          "copy")
+            cliphist decode <<< "$selection" | wl-copy
+            exit 0
+            ;;
+          "delete")
+            cliphist delete <<< "$selection"
+            ;;
+          "nuclear weapon")
+            confirm=$(echo -e "nvm\nBE GONE CLIPBOARD HISTORY" | rofi -dmenu -p "you sure?" \
+              -theme-str 'window {width: 400px;}' \
+              -theme-str 'listview {lines: 2; columns: 1;}'
+            )
+            [[ "$confirm" == "BE GONE CLIPBOARD HISTORY" ]] && cliphist wipe
+            ;;
+          "back")
+            continue
+            ;;
+        esac
+      done
+    '';
+  };
+in
+{
+  home.packages = [ theo-cliphist-manager ];
+
+  services.cliphist = {
+    enable = true;
+    systemdTargets = [ "niri.service" ];
+  };
+}

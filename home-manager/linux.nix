@@ -3,7 +3,7 @@
 
 {
   imports = [
-    ./config/copyq.nix
+    ./config/cliphist.nix
     ./config/imv.nix
     ./config/keychain.nix
     ./config/mpv.nix
