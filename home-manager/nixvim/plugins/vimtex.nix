@@ -1,30 +1,26 @@
 { pkgs, ... }:
 
 let
-  myTexlive = pkgs.texlive.combine {
-    inherit (pkgs.texlive)
-      # compilation
-      latexmk luatex synctex
+  myTexlive = pkgs.texliveSmall.withPackages (ps: with ps; [
+    # compilation
+    latexmk luatex synctex
 
-      # Your specific document packages
-      amsmath amstex amsfonts
-      enumitem minted soul hyperref framed
-      tcolorbox import xcolor
-      geometry titlesec
+    amsmath amstex amsfonts
+    enumitem minted soul hyperref framed
+    tcolorbox ps.import xcolor
+    geometry titlesec
 
-      forest
+    forest
 
-      algorithms
-      # algpseudocodex dependencies
-      algpseudocodex algorithmicx "fifo-stack" varwidth
-      kvoptions etoolbox "tabto-ltx" totcount tikzmark
+    algorithms
+    # algpseudocodex dependencies
+    algpseudocodex algorithmicx fifo-stack varwidth
+    kvoptions etoolbox tabto-ltx totcount tikzmark
 
-      # font related
-      sourcesanspro sourcecodepro sourceserifpro ly1
-      fontawesome
-
-      scheme-small;
-  };
+    # font related
+    sourcesanspro sourcecodepro sourceserifpro ly1
+    fontawesome
+  ]);
 in
 {
 
@@ -44,9 +40,9 @@ in
         compiler_method = "latexmk";
         tex_flavor = "latex";
 
+        # Apparently not needed in NixOS
         # --shell-escape allows use of external tools
         # e.g., minted requiring pygmentize
-        # apparently not needed in NixOS
         # compiler_latexmk = {
         #   options = [
         #     "-shell-escape"
