@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, ... }:
 {
   programs.nixvim = {
     plugins.treesitter = {
@@ -7,20 +7,20 @@
       indent.enable = true;
       folding.enable = true;
 
-      grammarPackages = with pkgs.vimPlugins.nvim-treesitter.builtGrammars; [
-        bash fish
-        c cpp
-        java
-        javascript
-        lua
-        make
-        markdown markdown_inline
-        nix
-        regex
-        python
-        sql
-        vim vimdoc
-        json toml xml yaml
+      grammarPackages = with config.programs.nixvim.plugins.treesitter.package.builtGrammars; [
+          bash fish
+          c cpp
+          java
+          javascript
+          lua
+          make
+          markdown markdown_inline
+          nix
+          regex
+          python
+          sql
+          vim vimdoc
+          json toml xml yaml
       ];
     };
   };
