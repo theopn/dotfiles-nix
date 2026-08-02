@@ -212,9 +212,8 @@ in
     xwayland-satellite
   ];
 
-  # !!!!! IMPORTANT !!!!!
-  # Since there is no home-manager module for Niri yet,
-  # programs.niri.enable is in configuration.nix
+  # Only the config is deployed in home-manager, `programs.niri` is in configuration.nix
+  # Till the day we get a maintained home-manager module for Niri...
   xdg.configFile."niri/config.kdl".source = ./niri/config.kdl;
 
   xdg.portal = {
