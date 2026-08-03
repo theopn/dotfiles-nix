@@ -16,6 +16,7 @@
     ./config/dunst.nix
     ./config/gammastep.nix
     ./config/niri.nix
+    ./config/polkit.nix
     ./config/rofi.nix
     ./config/swayidle.nix
     ./config/swaylock.nix

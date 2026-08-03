@@ -8,7 +8,10 @@
     enable = true;
     useNautilus = true;
   };
+
   programs.dconf.enable = true;
+  security.polkit.enable = true;
+
   # register swaylock to /etc/pam.d/
   security.pam.services.swaylock = {
     # https://www.reddit.com/r/NixOS/comments/16oiazf/swaylock_fprintd_fingerprint_reader_issues/

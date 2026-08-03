@@ -208,7 +208,7 @@ in
     theo-brightness-ctrl theo-volume-ctrl
     brightnessctl pavucontrol playerctl
     grim slurp sway-contrib.grimshot wf-recorder wl-clipboard-rs
-    nautilus networkmanagerapplet pantheon.pantheon-agent-polkit
+    nautilus networkmanagerapplet
     xwayland-satellite
   ];
 
