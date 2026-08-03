@@ -174,12 +174,21 @@ window-rule {
     default-window-height { fixed 700; }
 }
 
-// waybar & rofi blur; $ niri msg layers
+// waybar blur $ niri msg layers
 layer-rule {
-    match namespace="^rofi$"
     match namespace="waybar"
     background-effect {
         blur true
+    }
+}
+
+// I often want Rofi to be transparent so I can see what's behind
+layer-rule {
+    match namespace="^rofi$"
+    opacity 0.77
+    background-effect {
+        xray false
+        blur false
     }
 }
 
