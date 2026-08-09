@@ -137,19 +137,19 @@ in
         "Mod+Return".spawn = [ "kitty" ];
         "Mod+Space".spawn = [ "rofi" "-show" "drun" ];
         "Mod+Shift+P" = {
-          _props.hotkey-overlay-title = "Powermenu";
+          _props.hotkey-overlay-title = "Spawn `theo-rofi-powermenu`";
           spawn = [ "${lib.getExe myscripts.theo-rofi-powermenu}" ];
         };
         "Print".spawn = [ "${lib.getExe myscripts.theo-rofi-screenshot}" ];
         "Ctrl+Print".spawn = [ "${lib.getExe myscripts.theo-rofi-screenrecord}" ];
         "Shift+Print" = {
-          _props.hotkey-overlay-title = "Open Niri native screenshot";
+          _props.hotkey-overlay-title = "Spawn Niri screenshot";
           screenshot = {};
         };
 
         # custom cliphist manager, defined in cliphist.nix
         "Mod+Shift+V" = {
-          _props.hotkey-overlay-title = "Clipboard Manager";
+          _props.hotkey-overlay-title = "Spawn `theo-cliphist-manager`";
           spawn = [ "${lib.getExe myscripts.theo-cliphist-manager}" ];
         };
         # this one calls the official cliphist-rofi-img
@@ -184,17 +184,17 @@ in
         "Mod+Shift+K".move-window-up = {};
         "Mod+Shift+L".move-column-right = {};
 
-        "Mod+Left" = { _props.hotkey-overlay-title = "Focus Monitor Left (+ other arrows)"; focus-monitor-left = {}; };
+        "Mod+Left" = { _props.hotkey-overlay-title = "Focus Monitor Left"; focus-monitor-left = {}; };
         "Mod+Down".focus-monitor-down = {};
         "Mod+Up".focus-monitor-up = {};
         "Mod+Right".focus-monitor-right = {};
 
-        "Mod+Shift+Left" = { _props.hotkey-overlay-title = "Move Column to Monitor Left (+ other arrows)"; move-column-to-monitor-left = {}; };
+        "Mod+Shift+Left" = { _props.hotkey-overlay-title = "Move Column to Monitor Left"; move-column-to-monitor-left = {}; };
         "Mod+Shift+Down".move-column-to-monitor-down = {};
         "Mod+Shift+Up".move-column-to-monitor-up = {};
         "Mod+Shift+Right".move-column-to-monitor-right = {};
 
-        "Mod+Ctrl+Left" = { _props.hotkey-overlay-title = "Move Workspace to Monitor Left (+ other arrows)"; move-workspace-to-monitor-left = {}; };
+        "Mod+Ctrl+Left" = { _props.hotkey-overlay-title = "Move Workspace to Monitor Left"; move-workspace-to-monitor-left = {}; };
         "Mod+Ctrl+Down".move-workspace-to-monitor-down = {};
         "Mod+Ctrl+Up".move-workspace-to-monitor-up = {};
         "Mod+Ctrl+Right".move-workspace-to-monitor-right = {};
@@ -298,6 +298,7 @@ in
           window-rule._children = [
             { match._props.app-id = "^org\\.pulseaudio\\.pavucontrol$"; }
             { match._props.app-id = "blueman-manager"; }
+            { match._props.app-id = "^com\\.github\\.wwmm\\.easyeffects$"; }
             { open-floating = true; }
             { opacity = 0.8; }
             { default-column-width.fixed = 700; }
