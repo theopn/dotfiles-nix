@@ -5,16 +5,15 @@
     enable = true;
     tray = true;
     temperature = {
-      day = 5600;
-      night = 3600;
+      day = 5200;
+      night = 4200;
     };
     settings = {
       general = {
         adjustment-method = "wayland";
-        gamma-day = 0.9;
-        gamma-night = 0.8;
-        dawn-time = "08:00";
-        dusk-time = "20:00";
+        gamma-night = 0.9;
+        dawn-time = "07:30";
+        dusk-time = "21:30";
       };
     };
   };

@@ -2,7 +2,30 @@
 { config, pkgs, ... }:
 
 {
+  # Niri: niri-flake is unmaintained so...
+  # config is deployed with home-manager
+  programs.niri = {
+    enable = true;
+    useNautilus = true;
+  };
 
+  programs.dconf.enable = true;
+  security.polkit.enable = true;
+
+  # register swaylock to /etc/pam.d/
+  security.pam.services.swaylock = {
+    # https://www.reddit.com/r/NixOS/comments/16oiazf/swaylock_fprintd_fingerprint_reader_issues/
+    text = ''
+      # Try password first
+      auth sufficient pam_unix.so try_first_pass likeauth nullok nodelay
+      # Then fprintd
+      auth sufficient pam_fprintd.so
+      # Fallback
+      auth include login
+    '';
+  };
+
+  # Packages
   fonts.packages = with pkgs; [
     nerd-fonts.proggy-clean-tt
     nerd-fonts.fantasque-sans-mono
@@ -10,12 +33,15 @@
     noto-fonts-cjk-sans  # for Korean input
   ];
 
+  programs.firefox.enable = true;
   programs.thunderbird.enable = true;
 
   environment.systemPackages = with pkgs; [
     # paying the price for doing the minimal install
     curl wget gcc gdb git killall
     gnumake zip unzip file jq
+    # In cases when Niri config breaks
+    alacritty vim
 
     # uhh open source GUI tools
     brave gimp zotero
@@ -37,18 +63,6 @@
     #arduino-ide kicad
   ];
 
-
-  # https://wiki.nixos.org/wiki/Tailscale
-  services.tailscale.enable = true;
-  networking.nftables.enable = true;
-  networking.firewall = {
-    enable = true;
-    trustedInterfaces = [ "tailscale0" ];
-    allowedUDPPorts = [ config.services.tailscale.port ];
-  };
-    systemd.services.tailscaled.serviceConfig.Environment = [
-    "TS_DEBUG_FIREWALL_MODE=nftables"
-  ];
 
   # default applications
   # ls -l /run/current-system/sw/share/applications/ /etc/profiles/per-user/${USER}/share/applications/
@@ -77,6 +91,7 @@
       "inode/directory" = "lf.desktop";
   };
 
+
   # fcitx5
   i18n.inputMethod = {
     enable = true;
@@ -99,6 +114,20 @@
       };
     };
   };
+
+
+  # https://wiki.nixos.org/wiki/Tailscale
+  services.tailscale.enable = true;
+  networking.nftables.enable = true;
+  networking.firewall = {
+    enable = true;
+    trustedInterfaces = [ "tailscale0" ];
+    allowedUDPPorts = [ config.services.tailscale.port ];
+  };
+    systemd.services.tailscaled.serviceConfig.Environment = [
+    "TS_DEBUG_FIREWALL_MODE=nftables"
+  ];
+
 
   # Podman
   virtualisation = {
