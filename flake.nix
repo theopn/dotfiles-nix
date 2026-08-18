@@ -16,54 +16,85 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
-    };
+    nixvim.url = "github:nix-community/nixvim";
+
+    # For the Dendritic pattern
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
-  outputs = { self, nixpkgs, nixos-hardware, nix-darwin, home-manager, nixvim, ... }:
+  outputs = inputs@{ self, nixpkgs, nixos-hardware, nix-darwin, home-manager, ... }:
     let
-      mkHomeManager = username : {
+      aspects = inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+        inputs.import-tree ./modules
+      );
+
+      username = "theopn";
+
+      mkHomeManager = extraImports: {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "hmbak";
-        home-manager.users."${username}" = {
-          imports =[
-            nixvim.homeModules.nixvim
-            ./home-manager/home.nix
-          ];
+        home-manager.users.${username} = {
+          imports = extraImports;
         };
       };
     in
-  {
+      aspects // {
+        darwinConfigurations.beauvoir = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          specialArgs = { inherit inputs; };
+          modules = [
+            # nix-darwin config & Dendritic modules
+            ./hosts/beauvoir/configuration.nix
+            {
+              imports = with self.modules.darwin; [
+                  aerospace homebrew
+                ];
+            }
 
-    darwinConfigurations.beauvoir = nix-darwin.lib.darwinSystem {
-      system = "aarch64-darwin";
+            # home-manager modules
+            home-manager.darwinModules.home-manager
+            (mkHomeManager (with self.modules.homeManager; [
+              base
+              bat btop eza fd fzf git lf ripgrep vim zoxide
+              fastfetch fish starship zsh
+              kitty neovide mpv imv zathura syncthing
+              nixvim
+            ]))
+          ];
+        };
 
-      modules = [
-        ./hosts/beauvoir/configuration.nix
-        home-manager.darwinModules.home-manager
-        (mkHomeManager "theopn")
-      ];
+        nixosConfigurations.wittgenstein = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = { inherit inputs; };
+          modules = [
+            nixos-hardware.nixosModules.framework-amd-ai-300-series
 
-    };
+            # nixOS config & Dendritic modules
+            ./hosts/wittgenstein/configuration.nix
+            {
+              imports = with self.modules.nixos; [
+                niri dconf polkit swaylock linux-base
+              ];
+            }
 
-    nixosConfigurations.wittgenstein = nixpkgs.lib.nixosSystem {
-      system = "x86_64-linux";
+            # home-manager modules
+            home-manager.nixosModules.home-manager
+            (mkHomeManager (with self.modules.homeManager; [
+              base theme
+              bat btop eza fd fzf git lf ripgrep vim zoxide
+              fastfetch fish starship zsh
 
-      modules = [
-        nixos-hardware.nixosModules.framework-amd-ai-300-series
-        ./hosts/wittgenstein/configuration.nix
-        home-manager.nixosModules.home-manager
-        (mkHomeManager "theopn")
-        {
-          home-manager.users.theopn = {
-            imports =[ ./home-manager/linux.nix ];
-          };
-        }
-      ];
+              kitty neovide mpv imv zathura syncthing keychain
 
-    };
+              niri waybar polkit
+              cliphist dunst easyeffects gammastep rofi swayidle swaylock udiskie
+              nixvim
+            ]))
 
-  };
+          ];
+        };
+      };
 }
+
