@@ -2,8 +2,7 @@
 {
   imports = [
       ./hardware-configuration.nix
-      ./idkwhattoname.nix
-    ];
+  ];
 
 
   # Boot settings

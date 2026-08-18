@@ -1,14 +1,9 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
 let
   saymyname = "theopn";  # you are goddamn right
 in
 {
-  imports = [
-    ./aerospace.nix
-    ./homebrew.nix
-  ];
-
   environment.variables = {
     EDITOR = "nvim";
     MANPAGER = "nvim +Man!";
