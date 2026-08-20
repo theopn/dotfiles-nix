@@ -1,4 +1,5 @@
 {
+  # fallthrough packages, variables, and home-manager settings
   flake.modules.homeManager.home-base = { pkgs, lib, config, ... }: {
     xdg.enable = true;
 

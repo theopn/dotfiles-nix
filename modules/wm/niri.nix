@@ -1,9 +1,13 @@
 {
-  flake.modules.nixos.niri = {
+  flake.modules.nixos.niri = { pkgs, ... }: {
     programs.niri = {
       enable = true;
       useNautilus = true;
     };
+
+    environment.systemPackages = with pkgs; [
+      alacritty vim
+    ];
   };
 
   flake.modules.homeManager.niri = { lib, pkgs, ... }:
@@ -12,6 +16,7 @@
     in
   {
 
+    # somewhat necessary packages
     home.packages = with pkgs; [
       brightnessctl pavucontrol playerctl
       grim slurp sway-contrib.grimshot wf-recorder wl-clipboard-rs

@@ -1,6 +1,6 @@
 {
 
-  # extra things for configuration.nix
+  # packages, variables, and fallthrough NixOS settings
   flake.modules.nixos.nixos-base = { pkgs, ... }: {
     fonts.packages = with pkgs; [
       nerd-fonts.proggy-clean-tt
@@ -16,9 +16,6 @@
       # paying the price for doing the minimal install
       curl wget gcc gdb git killall
       gnumake zip unzip file jq
-
-      # In cases when Niri config breaks
-      alacritty vim
 
       # uhh open source GUI tools
       brave gimp zotero
