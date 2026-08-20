@@ -57,7 +57,7 @@
             (mkHomeManager {
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
-                base
+                home-base
                 bat btop eza fd fzf git lf ripgrep vim zoxide
                 fastfetch fish starship zsh
                 kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
@@ -78,7 +78,13 @@
             ./hosts/wittgenstein/configuration.nix
             {
               imports = with self.modules.nixos; [
-                niri dconf polkit swaylock linux-base
+                nixos-base
+                # Linux
+                fcitx printing podman tailscale
+                udisks2
+
+
+                niri dconf polkit swaylock
               ];
             }
 
@@ -87,7 +93,9 @@
             (mkHomeManager {
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
-                base theme
+                home-base
+
+                theme
                 bat btop eza fd fzf git lf ripgrep vim zoxide
                 fastfetch fish starship zsh
 

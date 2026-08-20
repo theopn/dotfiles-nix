@@ -17,40 +17,38 @@
   time.timeZone = "America/New_York";
   i18n.defaultLocale = "en_US.UTF-8";
 
+  services.openssh.enable = true;
+
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = false;
+  services.blueman.enable = true;
+
 
   # Hardware services
   services.fwupd.enable = true;
   services.fprintd.enable = true;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = false;
-  services.blueman.enable = true;
   services.libinput = {
     enable = true;
     touchpad.tapping = true;
     touchpad.naturalScrolling = true;
   };
+
+  # Audio
   services.pipewire = {
     enable = true;
     pulse.enable = true;
-  };
-  services.printing = {
-    enable = true;
-    drivers = [ pkgs.cups-filters ];
   };
   services.avahi = {
     enable = true;
     nssmdns4 = true;
     openFirewall = true;
   };
-  services.udisks2.enable = true;
+
+  # Power
   # https://knowledgebase.frame.work/optimizing-fedora-battery-life-r1baXZh
   services.tuned.enable = true;
   services.tlp.enable = false;
   services.upower.enable = true;
-
-
-  # Other services
-  services.openssh.enable = true;
 
 
   # Me
@@ -59,15 +57,6 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "input" "dialout" "podman" ];
     shell = pkgs.zsh;
-  };
-
-
-  # Environment variables
-  environment.localBinInPath = true;  # add ~/.local/bin to $PATH
-  environment.variables = {
-    EDITOR = "nvim";
-    MANPAGER = "nvim +Man!";
-    LESSHISTFILE = "-";
   };
 
 

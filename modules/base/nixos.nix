@@ -1,7 +1,7 @@
 {
 
-  # things that would be located in `configuration.nix`
-  flake.modules.nixos.linux-base = { config, pkgs, ... }: {
+  # extra things for configuration.nix
+  flake.modules.nixos.nixos-base = { pkgs, ... }: {
     fonts.packages = with pkgs; [
       nerd-fonts.proggy-clean-tt
       nerd-fonts.fantasque-sans-mono
@@ -16,6 +16,7 @@
       # paying the price for doing the minimal install
       curl wget gcc gdb git killall
       gnumake zip unzip file jq
+
       # In cases when Niri config breaks
       alacritty vim
 
@@ -25,8 +26,6 @@
       # Libreoffice
       libreoffice hunspell hunspellDicts.en_US
 
-      # Podman
-      podman-compose podman-tui
 
       # Propritery
       discord slack spotify zoom-us
@@ -38,6 +37,16 @@
       # CS489 stuff
       #arduino-ide kicad
     ];
+
+
+    # Environment variables
+    environment.localBinInPath = true;  # add ~/.local/bin to $PATH
+    environment.variables = {
+      EDITOR = "nvim";
+      MANPAGER = "nvim +Man!";
+      LESSHISTFILE = "-";
+    };
+
 
     # default applications
     # ls -l /run/current-system/sw/share/applications/ /etc/profiles/per-user/${USER}/share/applications/
@@ -61,49 +70,5 @@
       "inode/directory" = "lf.desktop";
     };
 
-    # fcitx5
-    i18n.inputMethod = {
-      enable = true;
-      type = "fcitx5";
-      fcitx5 = {
-        waylandFrontend = true;
-        ignoreUserConfig = true;
-        addons = with pkgs; [ fcitx5-hangul ];
-        settings = {
-          inputMethod = {
-            GroupOrder."0" = "Default";
-            "Groups/0" = {
-              Name = "Default";
-              "Default Layout" = "us";
-              DefaultIM = "keyboard-us";
-            };
-            "Groups/0/Items/0".Name = "keyboard-us";
-            "Groups/0/Items/1".Name = "hangul";
-          };
-        };
-      };
-    };
-
-    # https://wiki.nixos.org/wiki/Tailscale
-    services.tailscale.enable = true;
-    networking.nftables.enable = true;
-    networking.firewall = {
-      enable = true;
-      trustedInterfaces = [ "tailscale0" ];
-      allowedUDPPorts = [ config.services.tailscale.port ];
-    };
-    systemd.services.tailscaled.serviceConfig.Environment = [
-      "TS_DEBUG_FIREWALL_MODE=nftables"
-    ];
-
-    # Podman
-    virtualisation = {
-      containers.enable = true;
-      podman = {
-        enable = true;
-        dockerCompat = true;
-        defaultNetwork.settings.dns_enabled = true;
-      };
-    };
   };
 }

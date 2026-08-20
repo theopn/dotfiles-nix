@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.base = { pkgs, lib, config, ... }: {
+  flake.modules.homeManager.home-base = { pkgs, lib, config, ... }: {
     xdg.enable = true;
 
     home.sessionVariables = {
