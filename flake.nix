@@ -59,7 +59,8 @@
               base
               bat btop eza fd fzf git lf ripgrep vim zoxide
               fastfetch fish starship zsh
-              kitty neovide mpv imv zathura syncthing
+              kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
+              neovide mpv imv zathura syncthing
               nixvim
             ]))
           ];
