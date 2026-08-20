@@ -25,22 +25,21 @@
 
   outputs = inputs@{ self, nixpkgs, nixos-hardware, nix-darwin, home-manager, ... }:
     let
-      aspects = inputs.flake-parts.lib.mkFlake { inherit inputs; } (
+      # scanned modules from import-tree
+      dendriticModules = inputs.flake-parts.lib.mkFlake { inherit inputs; } (
         inputs.import-tree ./modules
       );
 
-      username = "theopn";
-
-      mkHomeManager = extraImports: {
+      # function that populates a common home-manager config
+      mkHomeManager = { saymyname, theosHomeManagerModules }: {
         home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "hmbak";
-        home-manager.users.${username} = {
-          imports = extraImports;
-        };
+        home-manager.users.${saymyname}.imports = theosHomeManagerModules;
       };
     in
-      aspects // {
+      dendriticModules // {
+
         darwinConfigurations.beauvoir = nix-darwin.lib.darwinSystem {
           system = "aarch64-darwin";
           specialArgs = { inherit inputs; };
@@ -55,14 +54,17 @@
 
             # home-manager modules
             home-manager.darwinModules.home-manager
-            (mkHomeManager (with self.modules.homeManager; [
-              base
-              bat btop eza fd fzf git lf ripgrep vim zoxide
-              fastfetch fish starship zsh
-              kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
-              neovide mpv imv zathura syncthing
-              nixvim
-            ]))
+            (mkHomeManager {
+              saymyname = "theopn"; # you're goddamn right
+              theosHomeManagerModules = with self.modules.homeManager; [
+                base
+                bat btop eza fd fzf git lf ripgrep vim zoxide
+                fastfetch fish starship zsh
+                kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
+                neovide mpv imv zathura syncthing
+                nixvim
+              ];
+            })
           ];
         };
 
@@ -82,17 +84,20 @@
 
             # home-manager modules
             home-manager.nixosModules.home-manager
-            (mkHomeManager (with self.modules.homeManager; [
-              base theme
-              bat btop eza fd fzf git lf ripgrep vim zoxide
-              fastfetch fish starship zsh
+            (mkHomeManager {
+              saymyname = "theopn"; # you're goddamn right
+              theosHomeManagerModules = with self.modules.homeManager; [
+                base theme
+                bat btop eza fd fzf git lf ripgrep vim zoxide
+                fastfetch fish starship zsh
 
-              kitty neovide mpv imv zathura syncthing keychain
+                kitty neovide mpv imv zathura syncthing keychain
 
-              niri waybar polkit
-              cliphist dunst easyeffects gammastep rofi swayidle swaylock udiskie
-              nixvim
-            ]))
+                niri waybar polkit
+                cliphist dunst easyeffects gammastep rofi swayidle swaylock udiskie
+                nixvim
+              ];
+            })
 
           ];
         };
