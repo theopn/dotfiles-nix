@@ -4,6 +4,7 @@
       myscripts = import ./_waybar-scripts.nix { inherit pkgs; };
     in
     {
+
       programs.waybar = {
         enable = true;
 
@@ -12,6 +13,7 @@
           enable = true;
           targets = [ "niri.service" ];
         };
+
 
         settings = {
           mainBar = {
@@ -43,6 +45,7 @@
               "tray"
             ];
 
+            # modules-left
             "niri/workspaces" = {
               format = "{index}:{name}";
             };
@@ -61,6 +64,7 @@
               swap-icon-label = false;
             };
 
+            # modules-center
             "custom/dunst" = {
               format = "󰵛";
               tooltip = true;
@@ -70,8 +74,10 @@
             };
 
             clock = {
-              format = "  {:%b %e %H:%M}";
+              format = "  {:%b %e %H:%M}";
+
               tooltip-format = "\t<big>{:%H:%M:%S}</big>\n\n<tt><small>{calendar}</small></tt>";
+
               calendar = {
                 mode = "month";
                 mode-mon-col = 3;
@@ -83,12 +89,14 @@
                   today = "<span color='#b48ead'><b><u>{}</u></b></span>";
                 };
               };
+
               actions.on-click-right = "mode";
             };
 
+            # modules-right
             temperature = {
               format = "{icon} {temperatureC}°C";
-              format-icons = "";
+              format-icons = "";
             };
 
             mpris = {
@@ -97,34 +105,38 @@
               on-click-middle = "";
               on-click-right = "";
               player-icons = {
-                default = " ";
-                firefox = " ";
-                spotify = " ";
-                chromium = " ";
+                default = " ";
+                firefox = " ";
+                spotify = " ";
+                chromium = " ";
                 plasma-browser-integration = "󰾔 ";
-                mpv = " ";
+                mpv = " ";
               };
               status-icons = {
-                playing = "";
-                paused = "";
+                playing = "";
+                paused = "";
               };
               max-length = 10;
             };
 
             pulseaudio = {
               format = "{icon} {volume}% {format_source}";
+
               format-muted = "󰝟 {format_source}";
-              format-source = "";
+
+              format-source = "";
               format-source-muted = "󰍭";
+
               format-bluetooth = "󰗾 ({icon}) {volume}% {format_source}";
               format-bluetooth-muted = "󰗿 ({icon}) {format_source}";
+
               format-icons = {
-                headphone = " ";
+                headphone = " ";
                 hands-free = "󱡒 ";
-                headset = " ";
-                phone = " ";
-                portable = " ";
-                car = " ";
+                headset = " ";
+                phone = " ";
+                portable = " ";
+                car = " ";
                 default = ["󰕿" "󰖀" "󰕾"];
               };
               on-click = "pavucontrol";
@@ -132,7 +144,7 @@
 
             backlight = {
               format = "{icon} {percent}%";
-              format-icons = [" " " " " " " " " " " " " " " " " "];
+              format-icons = [" " " " " " " " " " " " " " " " " "];
             };
 
             battery = {
@@ -144,8 +156,8 @@
               };
               format = "{icon} {capacity}%";
               format-charging = "󰃨 {capacity}%";
-              format-plugged = " {capacity}%";
-              format-icons = [" " " " " " " " " "];
+              format-plugged = " {capacity}%";
+              format-icons = [" " " " " " " " " "];
               tooltip-format = "{timeTo}";
               interval = 30;
             };
@@ -155,10 +167,10 @@
               tooltip-format = "Power profile: {profile}\nDriver: {driver}";
               tooltip = true;
               format-icons = {
-                default = " ";
-                performance = " ";
-                balanced = " ";
-                power-saver = " ";
+                default = " ";
+                performance = " ";
+                balanced = " ";
+                power-saver = " ";
               };
             };
 
@@ -188,7 +200,7 @@
             };
 
             "custom/separator" = {
-              format = "";
+              format = "";
               tooltip = false;
               interval = "once";
             };
@@ -209,6 +221,7 @@
         *            /___/                        /___/
         */
 
+        /* Nord Color Palette */
         @define-color color00 #2e3440;
         @define-color color01 #3b4252;
         @define-color color02 #434c5e;
@@ -234,9 +247,12 @@
 
         window#waybar {
           margin: 10px 10px;
-          background: rgba(46, 52, 64, 0.8);
+          background: rgba(46, 52, 64, 0.8);  /* @color00 */
           color: @color06;
         }
+
+
+        /* Modules - Left */
 
         #workspaces {
           padding: 3px 3px;
@@ -271,6 +287,10 @@
           color: transparent;
         }
 
+
+        /* Modules - Center */
+
+
         #custom-dunst {
           color: @color08;
           padding: 0px 5px;
@@ -281,6 +301,9 @@
           padding: 0 5px;
           margin : 3px 3px;
         }
+
+
+        /* Modules - Right */
 
         #temperature,
         #mpris, #pulseaudio,
@@ -332,6 +355,9 @@
           color: @color14;
         }
 
+
+        /* Tray */
+
         #custom-seperator {
           color: @color06;
           padding: 1px 1px;
@@ -347,5 +373,6 @@
         }
         '';
       };
-    };
+
+    };  # flake module ends
 }
