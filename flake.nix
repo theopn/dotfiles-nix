@@ -48,6 +48,7 @@
             ./hosts/beauvoir/configuration.nix
             {
               imports = with self.modules.darwin; [
+                  # modules/mac
                   aerospace homebrew
                 ];
             }
@@ -58,10 +59,14 @@
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
                 home-base
+
+                # modules/web
+                syncthing
+
                 bat btop eza fd fzf git lf ripgrep vim zoxide
                 fastfetch fish starship zsh
                 kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
-                neovide mpv imv zathura syncthing
+                neovide
                 nixvim
               ];
             })
@@ -98,15 +103,18 @@
 
                 # modules/linux
                 easyeffects keychain mate-polkit udiskie
-
                 # modules/wm
                 cliphist dconf dunst gammastep niri rofi swayidle swaylock theme waybar
+                # modules/media
+                mpv imv media
+                # modules/web
+                syncthing
 
 
                 bat btop eza fd fzf git lf ripgrep vim zoxide
                 fastfetch fish starship zsh
 
-                kitty neovide mpv imv zathura syncthing
+                kitty neovide
 
                 nixvim
               ];
