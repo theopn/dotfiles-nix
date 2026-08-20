@@ -4,12 +4,6 @@ let
   saymyname = "theopn";  # you are goddamn right
 in
 {
-  environment.variables = {
-    EDITOR = "nvim";
-    MANPAGER = "nvim +Man!";
-    LESSHISTFILE = "-";
-  };
-
   # enable Fish in system level.
   # ensures $PATH is set correctly,
   # even when you launch app through Spotlight.
@@ -18,11 +12,6 @@ in
     name = saymyname;
     home = "/Users/${saymyname}";
   };
-
-  fonts.packages = with pkgs; [
-    nerd-fonts.proggy-clean-tt
-    nerd-fonts.fantasque-sans-mono
-  ];
 
   system.primaryUser = saymyname;
   system.defaults = {

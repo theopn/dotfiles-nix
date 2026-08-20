@@ -48,9 +48,10 @@
             ./hosts/beauvoir/configuration.nix
             {
               imports = with self.modules.darwin; [
-                  # modules/mac
-                  aerospace homebrew
-                ];
+                darwin-base
+                # modules/mac
+                aerospace homebrew
+              ];
             }
 
             # home-manager modules
