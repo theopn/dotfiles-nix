@@ -59,15 +59,18 @@
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
                 home-base
+                nixvim
 
+                # modules/cli-tools
+                bat btop eza fastfetch fd fzf git lf ripgrep zoxide
+                # modules/editor
+                neovide vim
+                # modules/shell
+                fish starship zsh
+                kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
                 # modules/web
                 syncthing
 
-                bat btop eza fd fzf git lf ripgrep vim zoxide
-                fastfetch fish starship zsh
-                kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
-                neovide
-                nixvim
               ];
             })
           ];
@@ -86,11 +89,8 @@
                 nixos-base
                 # modules/linux
                 fcitx printing podman tailscale udisks2
-
                 # modules/wm
                 dconf niri swaylock
-
-                swaylock
               ];
             }
 
@@ -99,24 +99,23 @@
             (mkHomeManager {
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
-                home-base
+                home-base nixvim
+
+                # modules/cli-tools
+                bat btop eza fastfetch fd fzf git lf ripgrep zoxide
+                # modules/editor
+                neovide vim
+                # modules/shell
+                fish kitty starship zsh
+                # modules/web
+                syncthing
 
                 # modules/linux
                 easyeffects keychain mate-polkit udiskie
                 # modules/wm
                 cliphist dconf dunst gammastep niri rofi swayidle swaylock theme waybar
                 # modules/media
-                mpv imv media
-                # modules/web
-                syncthing
-
-
-                bat btop eza fd fzf git lf ripgrep vim zoxide
-                fastfetch fish starship zsh
-
-                kitty neovide
-
-                nixvim
+                mpv imv zathura
               ];
             })
 
