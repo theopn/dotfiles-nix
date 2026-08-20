@@ -79,12 +79,13 @@
             {
               imports = with self.modules.nixos; [
                 nixos-base
-                # Linux
-                fcitx printing podman tailscale
-                udisks2
+                # modules/linux
+                fcitx printing podman tailscale udisks2
 
+                # modules/wm
+                dconf niri swaylock
 
-                niri dconf polkit swaylock
+                swaylock
               ];
             }
 
@@ -95,14 +96,18 @@
               theosHomeManagerModules = with self.modules.homeManager; [
                 home-base
 
-                theme
+                # modules/linux
+                easyeffects keychain mate-polkit udiskie
+
+                # modules/wm
+                cliphist dconf dunst gammastep niri rofi swayidle swaylock theme waybar
+
+
                 bat btop eza fd fzf git lf ripgrep vim zoxide
                 fastfetch fish starship zsh
 
-                kitty neovide mpv imv zathura syncthing keychain
+                kitty neovide mpv imv zathura syncthing
 
-                niri waybar polkit
-                cliphist dunst easyeffects gammastep rofi swayidle swaylock udiskie
                 nixvim
               ];
             })

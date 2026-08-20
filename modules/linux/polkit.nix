@@ -3,7 +3,7 @@
     security.polkit.enable = true;
   };
 
-  flake.modules.homeManager.polkit = { pkgs, ... }: {
+  flake.modules.homeManager.mate-polkit = { pkgs, ... }: {
     # test that Polkit is running with: `pkexec id` (prompts terminal PW if no Polkit is running)
     home.packages = [ pkgs.mate-polkit ];
 
