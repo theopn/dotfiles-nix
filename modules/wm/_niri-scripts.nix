@@ -9,7 +9,7 @@
   ##### Powermenu script (Mod+Shift+P) #####
   theo-rofi-powermenu = pkgs.writeShellApplication {
     name = "theo-rofi-powermenu";
-    runtimeInputs = with pkgs; [ rofi ];
+    runtimeInputs = with pkgs; [ rofi swaylock ];
     text = ''
       shutdown='   shutdown'
       reboot=' 󰜉  reboot'
@@ -75,7 +75,7 @@
   ##### Screenshot using grimshot (Prtsc) #####
   theo-rofi-screenshot = pkgs.writeShellApplication {
     name = "theo-rofi-screenshot";
-    runtimeInputs = with pkgs; [ rofi grim sway-contrib.grimshot ];
+    runtimeInputs = with pkgs; [ rofi grim slurp sway-contrib.grimshot ];
     text = ''
       area_cp=' area (clipboard)'
       area='󰩭 area'
@@ -103,7 +103,7 @@
   ##### Screen recording using wf-recorder (Ctrl+Prtsc) #####
   theo-rofi-screenrecord = pkgs.writeShellApplication {
     name = "theo-rofi-screenrecord";
-    runtimeInputs = with pkgs; [ rofi wf-recorder killall ];
+    runtimeInputs = with pkgs; [ rofi wf-recorder slurp killall dunst ];
     text = ''
       #!/usr/bin/env bash
 
@@ -218,7 +218,7 @@
   #     https://github.com/sentriz/cliphist/blob/master/contrib/cliphist-rofi-img
   theo-cliphist-manager = pkgs.writeShellApplication {
     name = "theo-cliphist-manager";
-    runtimeInputs = with pkgs; [ cliphist wl-clipboard coreutils gawk gnused ];
+    runtimeInputs = with pkgs; [ cliphist wl-clipboard-rs coreutils gawk gnused ];
     text = ''
       tmp_dir="/tmp/cliphist"
 

@@ -2,6 +2,7 @@
   flake.modules.nixos.niri = { pkgs, ... }: {
     programs.niri = {
       enable = true;
+      # about setting Nautilus as the file picker in the portal
       useNautilus = true;
     };
 
@@ -18,9 +19,14 @@
 
     # somewhat necessary packages
     home.packages = with pkgs; [
-      brightnessctl pavucontrol playerctl
-      grim slurp sway-contrib.grimshot wf-recorder wl-clipboard-rs
-      nautilus networkmanagerapplet
+      nautilus
+
+      playerctl  # direct mention in the config, too lazy to change
+
+      # both mentioned in the _niri-scripts.nix, but this ensures that
+      # I can still change volume & brightness even if scripts break
+      brightnessctl wireplumber
+
       xwayland-satellite
     ];
 
