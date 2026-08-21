@@ -89,7 +89,7 @@
               imports = with self.modules.nixos; [
                 nixos-base
                 # modules/linux
-                fcitx printing podman tailscale udisks2
+                fcitx printing podman tailscale udisks2 xdg-mime
                 # modules/wm
                 dconf niri swaylock
               ];
