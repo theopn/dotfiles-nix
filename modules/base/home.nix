@@ -41,7 +41,7 @@
       #(if stdenv.isLinux then platformio else platformio-core)
     ];
 
-    programs.man.generateCaches = lib.mkIf pkgs.stdenv.isDarwin false;
+    programs.man.generateCaches = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin false;
     programs.home-manager.enable = true;
 
     home.stateVersion = "26.05";

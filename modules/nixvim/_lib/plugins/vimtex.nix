@@ -35,7 +35,7 @@ in
       enable = true;
 
       settings = {
-        view_method = if pkgs.stdenv.isDarwin then "skim" else "zathura";
+        view_method = if pkgs.stdenv.hostPlatform.isDarwin then "skim" else "zathura";
 
         compiler_method = "latexmk";
         tex_flavor = "latex";

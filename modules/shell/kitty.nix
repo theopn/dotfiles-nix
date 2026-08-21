@@ -59,7 +59,7 @@
           window_margin_width = "5 5 3 5";
           inactive_text_alpha = "0.6";
           # behavior is up to compositor, but Niri needs decoration to support transparency
-          hide_window_decorations = if pkgs.stdenv.isDarwin then "titlebar-only" else "no";
+          hide_window_decorations = if pkgs.stdenv.hostPlatform.isDarwin then "titlebar-only" else "no";
 
           tab_bar_edge = "bottom";
           tab_bar_style = "custom";
