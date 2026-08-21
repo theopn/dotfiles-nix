@@ -112,7 +112,7 @@
                 syncthing
 
                 # modules/linux
-                easyeffects keychain mate-polkit udiskie
+                easyeffects keychain nm-applet mate-polkit udiskie
                 # modules/wm
                 cliphist dconf dunst gammastep niri rofi swayidle swaylock theme waybar
                 # modules/media
