@@ -218,7 +218,7 @@
   #     https://github.com/sentriz/cliphist/blob/master/contrib/cliphist-rofi-img
   theo-cliphist-manager = pkgs.writeShellApplication {
     name = "theo-cliphist-manager";
-    runtimeInputs = with pkgs; [ cliphist wl-clipboard-rs coreutils gawk gnused ];
+    runtimeInputs = with pkgs; [ cliphist wl-clipboard coreutils gawk gnused ];
     text = ''
       tmp_dir="/tmp/cliphist"
 
