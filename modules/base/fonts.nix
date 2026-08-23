@@ -27,6 +27,16 @@
         };
       };
     };
+
+    console = {
+      earlySetup = true;
+      # 'ter' = terminus
+      # 'u' = unicode/latin
+      # '32' = size
+      # 'n' = normal weight
+      font = "ter-u32n";
+      packages = [ pkgs.terminus_font ];
+    };
   };
 
 }
