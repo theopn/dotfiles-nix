@@ -2,13 +2,6 @@
 
   # packages, variables, and fallthrough NixOS settings
   flake.modules.nixos.nixos-base = { pkgs, ... }: {
-    fonts.packages = with pkgs; [
-      nerd-fonts.proggy-clean-tt
-      nerd-fonts.fantasque-sans-mono
-      cantarell-fonts
-      noto-fonts-cjk-sans  # for Korean input
-    ];
-
     programs.firefox.enable = true;
     programs.thunderbird.enable = true;
 

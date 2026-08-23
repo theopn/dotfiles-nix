@@ -59,7 +59,7 @@
             (mkHomeManager {
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
-                home-base
+                home-base fonts
                 nixvim
 
                 # modules/cli-tools
@@ -87,7 +87,7 @@
             ./hosts/wittgenstein/configuration.nix
             {
               imports = with self.modules.nixos; [
-                nixos-base
+                nixos-base fonts
                 # modules/linux
                 fcitx printing podman tailscale udisks2 xdg-mime
                 # modules/wm
@@ -100,7 +100,8 @@
             (mkHomeManager {
               saymyname = "theopn"; # you're goddamn right
               theosHomeManagerModules = with self.modules.homeManager; [
-                home-base nixvim
+                home-base fonts
+                nixvim
 
                 # modules/cli-tools
                 bat btop eza fastfetch fd fzf git lf ripgrep zoxide

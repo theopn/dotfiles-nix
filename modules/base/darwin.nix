@@ -1,10 +1,6 @@
 {
   # packages, variables, and fallthrough nix-darwin settings
-  flake.modules.darwin.darwin-base = { pkgs, ... }: {
-    fonts.packages = with pkgs; [
-      nerd-fonts.proggy-clean-tt
-      nerd-fonts.fantasque-sans-mono
-    ];
+  flake.modules.darwin.darwin-base = {
 
     environment.variables = {
       EDITOR = "nvim";

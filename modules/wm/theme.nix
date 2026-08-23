@@ -16,8 +16,8 @@
         size = 24;
       };
       font = {
-        name = "Cantarell";
-        package = pkgs.cantarell-fonts;
+        name = "Ubuntu Sans";
+        package = pkgs.ubuntu-sans;
         size = 12;
       };
     };
