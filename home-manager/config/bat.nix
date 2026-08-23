@@ -1,7 +1,0 @@
-{ ... }:
-{
-  programs.bat = {
-    enable = true;
-  };
-}
-
