@@ -115,7 +115,7 @@
                 # modules/linux
                 easyeffects keychain nm-applet mate-polkit udiskie xdg-mime
                 # modules/wm
-                cliphist dconf dunst gammastep niri rofi swayidle swaylock theme waybar
+                cliphist dconf dunst gammastep niri portal rofi swayidle swaylock theme waybar
                 # modules/media
                 mpv imv zathura
               ];

@@ -5,6 +5,14 @@
     in
     {
 
+      home.packages = with pkgs; [
+        # required for mpris
+        playerctl
+        # technically can get by with ${pkgs.pavucontrol}/bin/pavucontrol
+        # in the pulseaudio section, but it's nice to have it available.
+        pavucontrol
+      ];
+
       programs.waybar = {
         enable = true;
 

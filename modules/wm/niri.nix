@@ -3,11 +3,18 @@
     programs.niri = {
       enable = true;
       # about setting Nautilus as the file picker in the portal
+      # doesn't install nautilus by itself
       useNautilus = true;
     };
 
     environment.systemPackages = with pkgs; [
-      alacritty vim
+      alacritty xwayland-satellite
+      nautilus
+      # just in case
+      vim
+      # both mentioned in the _niri-scripts.nix, but this ensures that
+      # I can still change volume & brightness even if the scripts break
+      brightnessctl wireplumber
     ];
   };
 
@@ -16,35 +23,6 @@
     myscripts = import ./_niri-scripts.nix { inherit pkgs; };
   in
   {
-
-    # somewhat necessary packages
-    home.packages = with pkgs; [
-      nautilus
-
-      pavucontrol playerctl  # direct mentions in the config, too lazy to change
-
-      # both mentioned in the _niri-scripts.nix, but this ensures that
-      # I can still change volume & brightness even if scripts break
-      brightnessctl wireplumber
-
-      xwayland-satellite
-    ];
-
-
-    xdg.portal = {
-      enable = true;
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-gnome
-      ];
-      config.common.default = [ "gnome" "gtk" ];
-    };
-
-    services.gnome-keyring = {
-      enable = true;
-      # SSH keys are managed with `keychain` so no need
-      components = [ "secrets" ];
-    };
 
     # https://github.com/niri-wm/niri/discussions/1599
     # Tdlr: some windows have titles and app-id applied after they are spawned
@@ -65,7 +43,7 @@
       };
     };
 
-    # They finally added the Niri module and KDL config, rejoyce
+    # They finally added the Niri module and KDL config!!!!
     # https://github.com/nix-community/home-manager/pull/9685
     wayland.windowManager.niri = {
       enable = true;
@@ -197,10 +175,10 @@
           "XF86AudioLowerVolume" = { _props.allow-when-locked = true; spawn = [ "${lib.getExe myscripts.theo-volume-ctrl}" "down" ]; };
           "XF86AudioMute" = { _props.allow-when-locked = true; spawn = [ "${lib.getExe myscripts.theo-volume-ctrl}" "mute" ]; };
           "XF86AudioMicMute" = { _props.allow-when-locked = true; spawn-sh = [ "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle" ]; };
-          "XF86AudioPlay" = { _props.allow-when-locked = true; spawn-sh = [ "playerctl play-pause" ]; };
-          "XF86AudioStop" = { _props.allow-when-locked = true; spawn-sh = [ "playerctl stop" ]; };
-          "XF86AudioPrev" = { _props.allow-when-locked = true; spawn-sh = [ "playerctl previous" ]; };
-          "XF86AudioNext" = { _props.allow-when-locked = true; spawn-sh = [ "playerctl next" ]; };
+          "XF86AudioPlay" = { _props.allow-when-locked = true; spawn-sh = [ "${pkgs.playerctl}/bin/playerctl play-pause" ]; };
+          "XF86AudioStop" = { _props.allow-when-locked = true; spawn-sh = [ "${pkgs.playerctl}/bin/playerctl stop" ]; };
+          "XF86AudioPrev" = { _props.allow-when-locked = true; spawn-sh = [ "${pkgs.playerctl}/bin/playerctl previous" ]; };
+          "XF86AudioNext" = { _props.allow-when-locked = true; spawn-sh = [ "${pkgs.playerctl}/bin/playerctl next" ]; };
           "XF86MonBrightnessUp" = { _props.allow-when-locked = true; spawn = [ "${lib.getExe myscripts.theo-brightness-ctrl}" "up" ]; };
           "XF86MonBrightnessDown" = { _props.allow-when-locked = true; spawn = [ "${lib.getExe myscripts.theo-brightness-ctrl}" "down" ]; };
 
