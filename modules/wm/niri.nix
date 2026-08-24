@@ -12,9 +12,9 @@
   };
 
   flake.modules.homeManager.niri = { lib, pkgs, ... }:
-    let
-      myscripts = import ./_niri-scripts.nix { inherit pkgs; };
-    in
+  let
+    myscripts = import ./_niri-scripts.nix { inherit pkgs; };
+  in
   {
 
     # somewhat necessary packages
@@ -44,6 +44,25 @@
       enable = true;
       # SSH keys are managed with `keychain` so no need
       components = [ "secrets" ];
+    };
+
+    # https://github.com/niri-wm/niri/discussions/1599
+    # Tdlr: some windows have titles and app-id applied after they are spawned
+    # This services listens to Niri event and dynamically make them floating
+    systemd.user.services.niri-dynamic-float = {
+      Unit = {
+        Description = "Niri Dynamic Float Script";
+        After = [ "niri.service" ];
+      };
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.python3}/bin/python ${./niri/open-float.py}";
+        Restart = "on-failure";
+        RestartSec = "3";
+      };
+      Install = {
+        WantedBy = [ "niri.service" ];
+      };
     };
 
     # They finally added the Niri module and KDL config, rejoyce
