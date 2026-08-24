@@ -21,7 +21,7 @@
     home.packages = with pkgs; [
       nautilus
 
-      playerctl  # direct mention in the config, too lazy to change
+      pavucontrol playerctl  # direct mentions in the config, too lazy to change
 
       # both mentioned in the _niri-scripts.nix, but this ensures that
       # I can still change volume & brightness even if scripts break
