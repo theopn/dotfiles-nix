@@ -115,7 +115,9 @@
                 # modules/linux
                 easyeffects keychain nm-applet mate-polkit udiskie xdg-mime
                 # modules/wm
-                cliphist dconf dunst gammastep niri portal rofi swayidle swaylock theme waybar
+                cliphist dconf dunst gammastep
+                niri { _module.args = { myOutput = "eDP-1"; myScale = 1.67; }; }
+                portal rofi swayidle swaylock theme waybar
                 # modules/media
                 mpv imv zathura
               ];
