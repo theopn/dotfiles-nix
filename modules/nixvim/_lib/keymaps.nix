@@ -127,6 +127,17 @@
         action = "<C-g>u<ESC>[s1z=`]a<C-g>u";
         options.desc = "Fix nearest [S]pelling error and put the cursor back";
       }
+      # Replicating Vimwiki enter key feature
+      {
+        mode = "n";
+        key = "<C-n><C-n>";
+        action = "':e ' . expand('%:h') . '/<C-r><C-f>.md'";
+        options = {
+          expr = true;
+          silent = false;  # show the command line
+          desc = "Prompt to edit the token under the cursor as a markdown file (:e thing-under-your-cursor.md)";
+        };
+      }
 
       # Emacs alerts
       { mode = "i"; key = "<C-a>"; action = "<C-o>^"; options.desc = "Emacs alert"; }
