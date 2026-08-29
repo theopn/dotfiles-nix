@@ -20,7 +20,7 @@ require("tabby").setup({
           line.sep("", hl, theme.fill),
           tab.is_current() and "" or "󰆣",
           tab.number(),
-          tab.name(),
+          ((#tab.wins().wins > 1) and ("[" .. (#tab.wins().wins) .. "]") or ""),
           tab.close_btn(""),
           line.sep("", hl, theme.fill),
           hl = hl,
