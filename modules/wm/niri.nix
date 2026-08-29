@@ -18,7 +18,7 @@
     ];
   };
 
-  flake.modules.homeManager.niri = { lib, pkgs, niriOutput ? "eDP-1", niriScale ? 1.67, ... }:
+  flake.modules.homeManager.niri = { lib, pkgs, niriOutput, niriScale, ... }:
   let
     myscripts = import ./_niri-scripts.nix { inherit pkgs; };
   in

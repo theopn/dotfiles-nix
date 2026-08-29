@@ -68,7 +68,7 @@
                 neovide vim
                 # modules/shell
                 fish starship zsh
-                #kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
+                kitty { _module.args = { kittyFontName = "ProggyClean Nerd Font"; kittyFontSize = 22; }; }
                 # modules/web
                 syncthing
 

@@ -1,5 +1,5 @@
 {
-  flake.modules.homeManager.kitty = { pkgs, kittyFontName ? "monospace", kittyFontSize ? 12, ... }: {
+  flake.modules.homeManager.kitty = { pkgs, kittyFontName, kittyFontSize, ... }: {
     xdg.configFile."kitty/tab_bar.py".source = ./kitty/tab_bar.py;
 
     programs.kitty = {
