@@ -1,7 +1,7 @@
 {
   flake.modules.darwin.homebrew = { ... }:
     let
-      externalAppDir = "/Volumes/theo-crucial-p310/Applications";
+      externalAppDir = "/Volumes/theo-p310-apps/Applications";
     in
     {
       homebrew = {
@@ -28,6 +28,7 @@
           # args = { appdir = externalAppDir };
           #}
           "spotify"
+          "vlc"
 
           # Productivity
           "itsycal"
@@ -47,7 +48,7 @@
           "syncthing-app"
 
           # System
-          "jordanbaird-ice"
+          "thaw"
           "stats"
 
           # Tools
