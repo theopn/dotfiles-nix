@@ -68,7 +68,7 @@
                 neovide vim
                 # modules/shell
                 fish starship zsh
-                kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
+                #kitty { theo.kitty.font = { name = "ProggyClean Nerd Font"; size = 20; }; }
                 # modules/web
                 syncthing
 
@@ -118,7 +118,7 @@
                 easyeffects keychain nm-applet mate-polkit udiskie xdg-mime
                 # modules/wm
                 cliphist dconf dunst gammastep
-                niri { _module.args = { myOutput = "eDP-1"; myScale = 1.67; }; }
+                niri { _module.args = { niriOutput = "eDP-1"; niriScale = 1.67; }; }
                 portal rofi swayidle swaylock theme waybar
                 # modules/media
                 mpv imv zathura

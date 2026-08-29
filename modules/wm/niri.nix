@@ -18,7 +18,7 @@
     ];
   };
 
-  flake.modules.homeManager.niri = { lib, pkgs, myOutput ? "eDP-1", myScale ? 1.67, ... }:
+  flake.modules.homeManager.niri = { lib, pkgs, niriOutput ? "eDP-1", niriScale ? 1.67, ... }:
   let
     myscripts = import ./_niri-scripts.nix { inherit pkgs; };
   in
@@ -267,10 +267,10 @@
 
           {
             output = {
-              _args = [ myOutput ];
+              _args = [ niriOutput ];
               # "mode" is automatically picked by Niri
               variable-refresh-rate = {};
-              scale = myScale;
+              scale = niriScale;
               transform = "normal";
               # Place monitors to the right of the laptop
               position._props = { x = 0; y = 0; };
