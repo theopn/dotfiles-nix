@@ -108,7 +108,9 @@
                 # modules/editor
                 neovide vim
                 # modules/shell
-                fish kitty starship zsh
+                fish
+                kitty { _module.args = { kittyFontName = "FantasqueSansM Nerd Font"; kittyFontSize = 16; }; }
+                starship zsh
                 # modules/web
                 syncthing
 
